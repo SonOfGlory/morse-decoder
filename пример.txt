@@ -1,4 +1,3 @@
-const morse_table = {
     '.-': 'a',
     '-...': 'b',
     '-.-.': 'c',
@@ -38,16 +37,19 @@ const morse_table = {
 };
 
 function decode(expr) {
-    const letterArray = expr.match(/.{10}/g);
-    let decoded = ''
-    letterArray.forEach(element => {
-        if (element == '**********') {decoded = decoded + " "}
-        else {
-            let morseForm = element.replace(/11/g, '-').replace(/10/g, '.').replace(/00/g, '')
-            decoded = decoded + morse_table[morseForm]
-        }
-    });
-    return decoded;
+    let decodedExpr = '',
+        lengthExpr = expr.length;
+
+    for (let i = 0; i < lengthExpr; i += 10) {
+        let letter = expr.slice(i, i + 10)
+            .replace(/00/g, '')
+            .replace(/10/g, '.')
+            .replace(/11/g, '-');
+
+        decodedExpr += MORSE_TABLE[letter] || ' ';
+    }
+
+    return decodedExpr;
 }
 
 module.exports = {
